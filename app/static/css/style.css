@@ -1,0 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.header{
+    display: flex;
+    background-color: #2FA148;
+    width: 250px;
+}
+.header_opcoes{
+    border: 10px black;
+}
