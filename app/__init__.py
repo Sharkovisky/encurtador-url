@@ -3,6 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
+import os, logging
+
+logging.basicConfig(
+    filename="access.log", format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nelson:SuportE99@localhost/encurtador'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
