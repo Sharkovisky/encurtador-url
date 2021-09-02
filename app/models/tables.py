@@ -17,7 +17,7 @@ class Link(db.Model):
     nome = db.Column(db.String(100))
     linkOriginal = db.Column(db.String(1000), nullable=False)
     linkEncurtado = db.Column(db.String(45))
-    cliques = db.Column(db.Boolean)
+    cliques = db.Column(db.BigInteger)
 
     def __repr__(self):
         return "<Usuario %s>" % self.nome

@@ -19,7 +19,7 @@ def enviar_link():
 
     if (linkEncurtado == ""):
         letras = string.ascii_uppercase+string.ascii_lowercase
-        linkMisturado = ''.join((random.choice(letras)) for _ in range(6))
+        linkMisturado = ''.join((random.choice(letras)) for _ in range(7))
 
         print("LINK MISTURADO AQUI: "+str(linkMisturado))
 
@@ -27,7 +27,8 @@ def enviar_link():
         
     link = Link(
         linkOriginal=linkOriginal,
-        linkEncurtado=linkEncurtado
+        linkEncurtado=linkEncurtado,
+        cliques=0
     )
     db.session.add(link)
     db.session.commit()
@@ -41,5 +42,10 @@ def enviar_link():
 def receber_link(linkEmbaralhado):
 
     linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
+
+    linkCerto.cliques = linkCerto.cliques+1
+
+    db.session.add(linkCerto)
+    db.session.commit()
 
     return redirect(linkCerto.linkOriginal)
