@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, request
+from flask import render_template, request, redirect
 from app.models.tables import Usuario, Link
 import string, random
 
@@ -20,7 +20,7 @@ def enviar_link():
     if (linkEncurtado == ""):
         letras = string.ascii_uppercase+string.ascii_lowercase
         linkMisturado = ''.join((random.choice(letras)) for _ in range(6))
-        
+
         print("LINK MISTURADO AQUI: "+str(linkMisturado))
 
         linkEncurtado = linkMisturado
@@ -36,3 +36,10 @@ def enviar_link():
     linkPronto = Link.query.filter(Link.linkOriginal.like(linkOriginal)).first()
 
     return render_template("link_pronto.html", linkPronto=linkPronto)
+
+@app.route('/<linkEmbaralhado>', methods=["GET"])
+def receber_link(linkEmbaralhado):
+
+    linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
+
+    return redirect(linkCerto.linkOriginal)
