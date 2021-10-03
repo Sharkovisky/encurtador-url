@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect
-from app.models.tables import Usuario, Link
-import string, random
+from app.models.tables import Usuario, Link, LinksProibidos
+import string, random, requests
 
 @app.route('/', methods=["GET", "POST"])
 def inicio():
@@ -12,6 +12,13 @@ def enviar_link():
 
     linkOriginal = request.form["linkOriginal"]
     linkEncurtado = request.form["linkEncurtado"]
+    
+    #linksProibidos = LinksProibidos.query.filter(LinksProibidos.nome.like('%'+linkOriginal+'%')).first()
+    #linksProibidos = LinksProibidos.query.all()
+
+    #if linksProibidos in linkOriginal:
+        #mensagem="Links encurtados não podem ser reencurtados"
+        #return render_template("link.html", mensagem=mensagem)
 
     app.logger.info(
         "O link encurtado veio null? " + str(linkEncurtado)
@@ -33,17 +40,37 @@ def enviar_link():
     db.session.add(link)
     db.session.commit()
 
+    if ("L" in link.linkEncurtado):
+        linkCompleto = link.linkEncurtado.replace('L', 'I')
+        print("O LINK NOVO: "+str(linkCompleto))
 
-    linkPronto = Link.query.filter(Link.linkOriginal.like(linkOriginal)).first()
+        link2 = Link(
+            linkOriginal=linkOriginal,
+            linkEncurtado=linkCompleto,
+            cliques=0
+        )
+        db.session.add(link2)
+        db.session.commit()
+
+        print("O LINK TEM L OU I: "+str(linkEncurtado))
+
+    #linkPronto = Link.query.filter(Link.linkOriginal.like(linkOriginal)).order_by(linkEncurtado.id.desc()).first()
+    linkPronto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
 
     return render_template("link_pronto.html", linkPronto=linkPronto)
 
 @app.route('/<linkEmbaralhado>', methods=["GET"])
 def receber_link(linkEmbaralhado):
 
-    linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
+    #linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
+    linkCerto = Link.query.filter_by(linkEncurtado=linkEmbaralhado).first()
 
-    linkCerto.cliques = linkCerto.cliques+1
+    #responses = requests.get(linkCerto.linkOriginal)
+
+    #for response in responses.history:
+        #print(response.url)
+
+    linkCerto.cliques = int(linkCerto.cliques)+1
 
     db.session.add(linkCerto)
     db.session.commit()

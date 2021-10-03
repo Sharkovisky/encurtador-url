@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 flask-script = "*"
 flask-migrate = "<=2.7.0"
 pymysql = "*"
+requests = "*"
 
 [dev-packages]
 
