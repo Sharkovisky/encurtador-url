@@ -22,3 +22,5 @@ from app.models.tables import Usuario
 from app.models.tables import Link
 
 from app.controllers import links
+from app.controllers import descricao
+from app.controllers import denuncias

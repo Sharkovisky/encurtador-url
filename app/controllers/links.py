@@ -7,7 +7,7 @@ import string, random, requests
 def inicio():
     return render_template("link.html")
 
-@app.route('/link', methods=["POST"])
+@app.route('/encurtarLink', methods=["POST"])
 def enviar_link():
 
     linkOriginal = request.form["linkOriginal"]
@@ -40,8 +40,22 @@ def enviar_link():
     db.session.add(link)
     db.session.commit()
 
-    if ("L" in link.linkEncurtado):
-        linkCompleto = link.linkEncurtado.replace('L', 'I')
+    if ("l" in link.linkEncurtado):
+        linkCompleto = link.linkEncurtado.replace('l', 'i')
+        print("O LINK NOVO: "+str(linkCompleto))
+
+        link2 = Link(
+            linkOriginal=linkOriginal,
+            linkEncurtado=linkCompleto,
+            cliques=0
+        )
+        db.session.add(link2)
+        db.session.commit()
+
+        print("O LINK TEM L OU I: "+str(linkEncurtado))
+
+    if ("i" in link.linkEncurtado):
+        linkCompleto = link.linkEncurtado.replace('i', 'l')
         print("O LINK NOVO: "+str(linkCompleto))
 
         link2 = Link(
@@ -62,17 +76,21 @@ def enviar_link():
 @app.route('/<linkEmbaralhado>', methods=["GET"])
 def receber_link(linkEmbaralhado):
 
-    #linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
-    linkCerto = Link.query.filter_by(linkEncurtado=linkEmbaralhado).first()
+    linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
+    #linkCerto = Link.query.filter_by(linkEncurtado=linkEmbaralhado).first()
 
     #responses = requests.get(linkCerto.linkOriginal)
 
     #for response in responses.history:
         #print(response.url)
 
-    linkCerto.cliques = int(linkCerto.cliques)+1
+    if (linkCerto == None):
+        return render_template("404.html")
 
-    db.session.add(linkCerto)
-    db.session.commit()
+    else:
+        linkCerto.cliques = int(linkCerto.cliques)+1
+
+        db.session.add(linkCerto)
+        db.session.commit()
 
     return redirect(linkCerto.linkOriginal)

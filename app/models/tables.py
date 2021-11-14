@@ -30,3 +30,9 @@ class LinksProibidos(db.Model):
 
     def __repr__(self):
         return "<Link Proibido %s>" % self.nome
+
+class Denuncias(db.Model):
+    __tablename__ = "denuncias"
+
+    id = db.Column(db.Integer, primary_key=True)
+    
