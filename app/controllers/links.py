@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, request, redirect
-from app.models.tables import Usuario, Link, LinksProibidos
+from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests
 
 @app.route('/', methods=["GET", "POST"])
@@ -78,6 +78,11 @@ def receber_link(linkEmbaralhado):
 
     linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
     #linkCerto = Link.query.filter_by(linkEncurtado=linkEmbaralhado).first()
+    #linkCerto = Link.query.filter(Link.linkEncurtado.iexact==linkEmbaralhado).first()
+
+    linkDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkEmbaralhado)).first()
+    print(linkDenunciado)
+    #linkDenunciado = Link.query.filter(Link.linkEncurtado.like(linksDenunciados))
 
     #responses = requests.get(linkCerto.linkOriginal)
 
@@ -92,5 +97,8 @@ def receber_link(linkEmbaralhado):
 
         db.session.add(linkCerto)
         db.session.commit()
+
+        if (linkDenunciado):
+            return render_template("aviso.html")
 
     return redirect(linkCerto.linkOriginal)
