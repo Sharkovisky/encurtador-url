@@ -10,7 +10,7 @@ logging.basicConfig(
 )
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nelson:SuportE99@localhost/encurtador'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nelson-neto:tcc2024nelson@localhost/encurtador'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

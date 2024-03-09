@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
-import string, random, requests
+import string, random, requests, pyperclip
 
 @app.route('/', methods=["GET", "POST"])
 def inicio():
