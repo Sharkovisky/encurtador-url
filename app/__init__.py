@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
+#from flask_restplus import Api
+#from werkzeug import cached_property
 
 import os, logging
 
@@ -17,6 +19,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db, compare_type=True)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
+
+#api = Api(app, title='Documentação do Encurtador de URL', version='1.0', description='API de Encurtador de URL',prefix='/api')
 
 from app.models.tables import Usuario
 from app.models.tables import Link

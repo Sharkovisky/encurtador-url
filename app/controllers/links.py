@@ -71,6 +71,9 @@ def enviar_link():
     #linkPronto = Link.query.filter(Link.linkOriginal.like(linkOriginal)).order_by(linkEncurtado.id.desc()).first()
     linkPronto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
 
+    #pyperclip.copy('The text to be copied to the clipboard.')
+    #copiar = pyperclip.paste()
+
     return render_template("link_pronto.html", linkPronto=linkPronto)
 
 @app.route('/<linkEmbaralhado>', methods=["GET"])
