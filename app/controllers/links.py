@@ -31,7 +31,34 @@ def enviar_link():
         print("LINK MISTURADO AQUI: "+str(linkMisturado))
 
         linkEncurtado = linkMisturado
-        
+
+    else:
+        linkComLetrasIguais = ""
+        contador = 0
+        letrasIL = "i"+"I"
+        letrasIL2 = "l"+"L"
+
+        while Link.query.filter(Link.linkEncurtado.like(linkComLetrasIguais)).first()==None:
+            
+            linkComLetrasIguais = linkEncurtado.replace(random.choice(letrasIL), random.choice(letrasIL2), contador)
+            linkComLetrasIguais = linkEncurtado.replace(random.choice(letrasIL), random.choice(letrasIL2), contador+1)
+            print("Link: "+str(linkComLetrasIguais)+" Contador: "+str(contador))
+            contador=contador+1
+            if(contador==len(linkEncurtado)):
+                link = Link(
+                    linkOriginal=linkOriginal,
+                    linkEncurtado=linkEncurtado,
+                    cliques=0
+                )
+                db.session.add(link)
+                db.session.commit()
+
+                linkPronto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
+                return render_template("link_pronto.html", linkPronto=linkPronto)
+
+        mensagem = "Endereço personalizado já está em uso"
+        return render_template("link.html", mensagem=mensagem)
+
     link = Link(
         linkOriginal=linkOriginal,
         linkEncurtado=linkEncurtado,
@@ -81,6 +108,8 @@ def enviar_link():
 @app.route('/<linkEmbaralhado>', methods=["GET"])
 def receber_link(linkEmbaralhado):
 
+    if(linkEmbaralhado==None):
+        return render_template("link.html")
     '''
     if(Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()==None):
         #print("O link acessado é encurtado: " +linkEmbaralhado)
@@ -93,8 +122,9 @@ def receber_link(linkEmbaralhado):
             print(linkCerto)
     '''
     #print(Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first())
+    
+    linkComLetrasIguais = ""
     contador = 0
-    linkComLetrasIguais = " "
     letrasIL = "i"+"I"
     letrasIL2 = "l"+"L"
     #print(letrasIL)
@@ -112,13 +142,7 @@ def receber_link(linkEmbaralhado):
         
         linkCerto = Link.query.filter(Link.linkEncurtado.like(linkComLetrasIguais)).first()
         return redirect(linkCerto.linkOriginal)
-    '''
-    if("l" in linkEmbaralhado):
-        linkComLetrasIguais = linkEmbaralhado.replace("l", "i", 1)
-        print(linkEmbaralhado)
-        print("Pesquisa nova: " +linkComLetrasIguais)
-    '''
-
+        
     linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
     #linkCerto = Link.query.filter_by(linkEncurtado=linkEmbaralhado).first()
     #linkCerto = Link.query.filter(Link.linkEncurtado.iexact==linkEmbaralhado).first()
