@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 #from flask_restplus import Api
-#from werkzeug import cached_property
+from flask_restful_swagger import swagger
 
 import os, logging
 
@@ -21,6 +21,7 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 #api = Api(app, title='Documentação do Encurtador de URL', version='1.0', description='API de Encurtador de URL',prefix='/api')
+#api = swagger.docs(app, apiVersion='0.1')
 
 from app.models.tables import Usuario
 from app.models.tables import Link
