@@ -2,5 +2,9 @@
 {% block conteudo %}
 
 <h1>Você está entrando em um link que foi denunciado, tem certeza?</h1>
+<form action="/acessarLinkDenunciado" method="POST" class="form">
+    <input type="hidden" name="linkEncurtado" id="linkEncurtado" value="aa" class="form-control">
+    <input type="submit" value="Sim, tenho certeza." class="btn text-dark fs-5"></input>
+</form>
 
 {% endblock %}

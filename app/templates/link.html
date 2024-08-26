@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block conteudo %}
-<div class="d-flex justify-content-center border">
-    <img width="150px" src="../static/imgs/ifro_vertical.png">
+<div class="d-flex justify-content-center border links">
+    <img width="200px" class="pt-50" src="../static/imgs/ifro_vertical.png">
 </div>
 <form action="/encurtarLink" method="POST" class="form">
-    <div class="header card-body">
-        <label for="inputLinkOriginal" class="form-label text-light">Link</label>
+    <div class="header card-body input-group" style="gap: 50px">
+        <label for="inputLinkOriginal" class="form-label text-dark input-group-text">Link</label>
         <input type="url" name="linkOriginal" id="linkOriginal" class="form-control" required>
     </div>
-    <div class="header card-body">
-        <label for="inputLinkEncurtado" class="form-label text-light">Link personalizado</label>
+    <div class="header card-body input-group" style="gap: 10px">
+        <label for="inputLinkEncurtado" class="form-label text-dark input-group-text">Link personalizado</label>
         <input type="text" name="linkEncurtado" id="linkEncurtado" class="form-control">
     </div>
-    <input type="submit" value="Encurtar" class="btn text-dark fs-5"></input>
-    <div class="d-flex justify-content-between form-group">
+    <div class="d-flex flex-row form-group links">
+        <input type="submit" value="Encurtar" class="btn header text-light fs-5"></input>
         {% if mensagem %}
-        <div class="form-text text-danger"><i class="bi bi-exclamation-circle"></i>
+        <div class="form-text text-danger mt-50"><i class="bi bi-exclamation-circle"></i>
             {{mensagem}}</div>
         {% endif %}
     </div>

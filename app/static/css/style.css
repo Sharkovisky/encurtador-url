@@ -11,3 +11,6 @@
 .header_opcoes{
     border: 10px black;
 }
+.links{
+    gap: 50px;
+}
