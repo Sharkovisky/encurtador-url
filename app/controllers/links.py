@@ -135,7 +135,7 @@ def receber_link(linkEmbaralhado):
             linkComLetrasIguais = linkEmbaralhado.replace(random.choice(letrasIL), random.choice(letrasIL2), contador+1)
             #print("Link: "+str(linkComLetrasIguais)+" Contador: "+str(contador))
             contador=contador+1
-            if(contador==len(linkEmbaralhado)):
+            if(contador==len(linkEmbaralhado)*3):
                 return render_template("404.html")
         
         linkDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkComLetrasIguais)).first()

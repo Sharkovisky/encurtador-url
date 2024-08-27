@@ -1,22 +1,20 @@
 {% extends "base.html" %}
 {% block conteudo %}
-<div class="d-flex justify-content-center border links">
-    <img width="200px" class="pt-50" src="../static/imgs/ifro_vertical.png">
-</div>
-<form action="/encurtarLink" method="POST" class="form">
-    <div class="header card-body input-group" style="gap: 50px">
-        <label for="inputLinkOriginal" class="form-label text-dark input-group-text">Link</label>
-        <input type="url" name="linkOriginal" id="linkOriginal" class="form-control" required>
+<form action="/encurtarLink" method="POST" class="form" style="padding: 25px;">
+    <div class="card-body input-group container-sm container_form">
+        <label for="inputLinkOriginal" class="form-label text-dark input-group-text" style="height: 5vh;">Link a ser encurtado</label>
+        <input type="url" name="linkOriginal" id="linkOriginal" class="form-control" style="height: 5vh;" required>
     </div>
-    <div class="header card-body input-group" style="gap: 10px">
-        <label for="inputLinkEncurtado" class="form-label text-dark input-group-text">Link personalizado</label>
-        <input type="text" name="linkEncurtado" id="linkEncurtado" class="form-control">
+    <div class="card-body input-group container container_form" style="padding-top: 10px;">
+        <label for="inputLinkEncurtado" class="form-label text-dark input-group-text" style="height: 5vh;">Link personalizado</label>
+        <input type="text" name="linkEncurtado" id="linkEncurtado" class="form-control" style="height: 5vh;">
     </div>
-    <div class="d-flex flex-row form-group links">
-        <input type="submit" value="Encurtar" class="btn header text-light fs-5"></input>
+    <div class="form-group container container_form" style="display: flex;">
+        <input type="submit" value="Encurtar" class="btn botao"></input>
         {% if mensagem %}
-        <div class="form-text text-danger mt-50"><i class="bi bi-exclamation-circle"></i>
-            {{mensagem}}</div>
+        <div class="form-text text-light danger"><i class="bi bi-exclamation-circle"></i>
+            {{mensagem}}
+        </div>
         {% endif %}
     </div>
 </form>

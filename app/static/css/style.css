@@ -5,12 +5,35 @@
 .header{
     display: flex;
     background-color: #2FA148;
-    border: black 10px;
     font-size: 16px;
 }
-.header_opcoes{
-    border: 10px black;
+.imagem{
+    margin: 2vh;
 }
-.links{
-    gap: 50px;
+.botao{
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    background-color: white;
+    border: black 10px;
+}
+body{
+    background-image: url('../imgs/ifro-blur.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+.danger{
+    margin-top: 35px;
+    margin-left: 20px;
+    text-shadow: 2px;
+}
+form{
+    margin: 0;
+    width: 100vw;
+    background-color: #2FA148
+}
+.container_form{
+    width: 50vw;
+    padding: 0px;
 }
