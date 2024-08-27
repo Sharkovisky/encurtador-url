@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="container header" style="border: 15px white;">
+<table id="data" class="table text-light">
+    <thead>
+      <tr>
+        <th>TOP 10 links mais acessados!</th>
+        <th>Contagem</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for link in query %}
+        <tr>
+          <td>{{ link.linkEncurtado }}</td>
+          <td>{{ link.cliques }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

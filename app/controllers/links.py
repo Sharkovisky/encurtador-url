@@ -167,10 +167,21 @@ def receber_link(linkEmbaralhado):
 
     return redirect(linkCerto.linkOriginal)
 
-    @app.route('/acessarLinkDenunciado/<linkEmbaralhado>', methods=["GET", "POST"])
-    def receber_linkDenunciado(linkEmbaralhado):
+@app.route('/acessarLinkDenunciado/<linkEmbaralhado>', methods=["GET", "POST"])
+def receber_linkDenunciado(linkEmbaralhado):
         
-        linkEncurtado = request.form["linkEncurtado"]
+    linkEncurtado = request.form["linkEncurtado"]
     
-        linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
-        return redirect(linkCerto.linkOriginal)
+    linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
+    return redirect(linkCerto.linkOriginal)
+
+@app.route('/contador', methods=["GET"])
+def contador_links():
+
+    #query = Link.query.all()
+    query = Link.query.order_by(Link.cliques.desc()).limit(10).all()
+
+    for r in query:
+        print(r.linkEncurtado)
+    
+    return render_template("contador.html", query=query)
