@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
-import string, random, requests, pyperclip, time
+import string, random, requests, pyperclip, time, re
 from itertools import product
 
 def variarPossibilidades(link):
@@ -35,12 +35,31 @@ def contagemCliques(link):
     
     return link
 
+def verificacaoTextoURL(link):
+
+    url = r"https?://[^\s]+"
+    match = re.search(url, link)
+
+    if match and match.start() > 0:
+        return True
+    else:
+        return False
+
+def verificacaoURL(link):
+
+    url = r"https?://[^\s]+"
+    match = re.search(url, link)
+
+    if match:
+        return True
+    else:
+        return False
 
 @app.route('/', methods=["GET", "POST"])
 def inicio():
     return render_template("link.html")
 
-@app.route('/encurtarLink', methods=["POST"])
+@app.route('/encurtarLink', methods=["POST"]) #Rota para receber o Link, encurtá-lo e devolvê-lo ao usuário.
 def enviar_link():
 
     linkOriginal = request.form["linkOriginal"]
@@ -56,6 +75,14 @@ def enviar_link():
     app.logger.info(
         "O link encurtado veio null? " + str(linkEncurtado)
     )
+
+    if (verificacaoTextoURL(linkOriginal)==True):
+        mensagem = "Não é permitido ter texto antes do link"
+        return render_template("link.html", mensagem=mensagem)
+
+    if (verificacaoURL(linkEncurtado)==True):
+        mensagem = "Não é permitido ter como texto personalizado um outro link"
+        return render_template("link.html", mensagem=mensagem)
 
     if (linkEncurtado == ""):
         letras = string.ascii_uppercase+string.ascii_lowercase
