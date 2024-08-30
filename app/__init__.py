@@ -12,7 +12,11 @@ logging.basicConfig(
 )
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nelson-neto:tcc2024nelson@localhost/encurtador'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nelson-neto:tcc2024nelson@localhost/encurtador'
+
+## https://phpmyadmin.code.fslab.dev/index.php
+## Fazer login com mesmo usuário e senha do code-server
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nelson-neto:tcc2024nelson@mysql/nelson-neto_encurtador'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

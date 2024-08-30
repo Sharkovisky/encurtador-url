@@ -2,6 +2,7 @@ from app import app, db
 from flask import render_template, request, redirect
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, pyperclip, time
+from itertools import product
 
 @app.route('/', methods=["GET", "POST"])
 def inicio():
@@ -68,37 +69,6 @@ def enviar_link():
     db.session.add(link)
     db.session.commit()
 
-    '''
-    if ("l" in link.linkEncurtado):
-        linkCompleto = link.linkEncurtado.replace('l', 'i')
-        print("O LINK NOVO: "+str(linkCompleto))
-
-        link2 = Link(
-            linkOriginal=linkOriginal,
-            linkEncurtado=linkCompleto,
-            cliques=0
-        )
-        db.session.add(link2)
-        db.session.commit()
-
-        print("O LINK TEM L OU I: "+str(linkEncurtado))
-
-    
-    if ("i" in link.linkEncurtado):
-        linkCompleto = link.linkEncurtado.replace('i', 'l')
-        print("O LINK NOVO: "+str(linkCompleto))
-
-        link2 = Link(
-            linkOriginal=linkOriginal,
-            linkEncurtado=linkCompleto,
-            cliques=0
-        )
-        db.session.add(link2)
-        db.session.commit()
-
-        print("O LINK TEM L OU I: "+str(linkEncurtado))
-    '''
-    #linkPronto = Link.query.filter(Link.linkOriginal.like(linkOriginal)).order_by(linkEncurtado.id.desc()).first()
     linkPronto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
 
     #pyperclip.copy('The text to be copied to the clipboard.')
@@ -109,45 +79,37 @@ def enviar_link():
 @app.route('/<linkEmbaralhado>', methods=["GET"])
 def receber_link(linkEmbaralhado):
 
-    if(linkEmbaralhado==None):
-        return render_template("link.html")
-    '''
-    if(Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()==None):
-        #print("O link acessado é encurtado: " +linkEmbaralhado)
+    if("i" in linkEmbaralhado or "I" in linkEmbaralhado or "l" in linkEmbaralhado or "L" in linkEmbaralhado):
         
-        if("i" in linkEmbaralhado):
-            #linkComLetrasIguais = linkEmbaralhado.replace("l", "i", 1)
-            linkComLetrasIguais = linkEmbaralhado.replace("i", "l", 1)
-            print("Pesquisa nova: " +linkComLetrasIguais)
-            linkCerto = Link.query.filter(Link.linkEncurtado.like(linkComLetrasIguais)).first()
-            print(linkCerto)
-    '''
+        print("Passou pelo if de i ou L")
+
+        substituicoes = {
+        'i': ['I', 'l'],
+        'I': ['i', 'L'],
+        'l': ['L', 'i'],
+        'L': ['l', 'I']
+        }
+        
+        listaPossibilidades = []
+        
+        for char in linkEmbaralhado:
+            if char in substituicoes:
+                listaPossibilidades.append(substituicoes[char] + [char])
+            else:
+                listaPossibilidades.append([char])
+        
+        todasCombinacoes = product(*listaPossibilidades)
+        
+        possibilidades = [''.join(combinacoes) for combinacoes in todasCombinacoes]
+        
+
+    for p in possibilidades:
+        linkCerto = Link.query.filter(Link.linkEncurtado.like(p)).first()
+        #print(p)
+        if linkCerto !=None:
+            return redirect(linkCerto.linkOriginal)
     
-    linkComLetrasIguais = ""
-    contador = 0
-    letrasIL = "i"+"I"
-    letrasIL2 = "l"+"L"
-
-    if(Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()==None):
-        while Link.query.filter(Link.linkEncurtado.like(linkComLetrasIguais)).first()==None:
-        
-            linkComLetrasIguais = linkEmbaralhado.replace(random.choice(letrasIL), random.choice(letrasIL2), contador)
-            linkComLetrasIguais = linkEmbaralhado.replace(random.choice(letrasIL), random.choice(letrasIL2), contador+1)
-            #print("Link: "+str(linkComLetrasIguais)+" Contador: "+str(contador))
-            contador=contador+1
-            if(contador==len(linkEmbaralhado)*3):
-                return render_template("404.html")
-        
-        linkDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkComLetrasIguais)).first()
-        if (linkDenunciado):
-            return render_template("aviso.html")
-        
-        linkCerto = Link.query.filter(Link.linkEncurtado.like(linkComLetrasIguais)).first()
-        return redirect(linkCerto.linkOriginal)
-
     linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
-    #linkCerto = Link.query.filter_by(linkEncurtado=linkEmbaralhado).first()
-    #linkCerto = Link.query.filter(Link.linkEncurtado.iexact==linkEmbaralhado).first()
 
     linkDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkEmbaralhado)).first()
     if (linkDenunciado!=None):
@@ -178,10 +140,6 @@ def receber_linkDenunciado(linkEmbaralhado):
 @app.route('/contador', methods=["GET"])
 def contador_links():
 
-    #query = Link.query.all()
     query = Link.query.order_by(Link.cliques.desc()).limit(10).all()
-
-    for r in query:
-        print(r.linkEncurtado)
     
     return render_template("contador.html", query=query)
