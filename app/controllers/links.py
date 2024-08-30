@@ -4,6 +4,38 @@ from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, pyperclip, time
 from itertools import product
 
+def variarPossibilidades(link):
+
+    substituicoes = {
+        'i': ['I', 'l'],
+        'I': ['i', 'L'],
+        'l': ['L', 'i'],
+        'L': ['l', 'I']
+        }
+        
+    listaPossibilidades = []
+        
+    for char in link:
+        if char in substituicoes:
+            listaPossibilidades.append(substituicoes[char] + [char])
+        else:
+            listaPossibilidades.append([char])
+        
+    todasCombinacoes = product(*listaPossibilidades)
+        
+    possibilidades = [''.join(combinacoes) for combinacoes in todasCombinacoes]
+
+    return possibilidades
+
+def contagemCliques(link):
+    link.cliques = int(link.cliques)+1
+
+    db.session.add(link)
+    db.session.commit()
+    
+    return link
+
+
 @app.route('/', methods=["GET", "POST"])
 def inicio():
     return render_template("link.html")
@@ -35,31 +67,16 @@ def enviar_link():
 
     else:
         
-        linkComLetrasIguais = ""
-        contador = 0
-        letrasIL = "i"+"I"
-        letrasIL2 = "l"+"L"
+        if("i" in linkEncurtado or "I" in linkEncurtado or "l" in linkEncurtado or "L" in linkEncurtado):
+        
+            print("Passou pelo if de i ou L")
 
-        while Link.query.filter(Link.linkEncurtado.like(linkComLetrasIguais)).first()==None:
-            
-            linkComLetrasIguais = linkEncurtado.replace(random.choice(letrasIL), random.choice(letrasIL2), contador)
-            linkComLetrasIguais = linkEncurtado.replace(random.choice(letrasIL), random.choice(letrasIL2), contador+1)
-            print("Link: "+str(linkComLetrasIguais)+" Contador: "+str(contador))
-            contador=contador+1
-            if(contador==len(linkEncurtado)):
-                link = Link(
-                    linkOriginal=linkOriginal,
-                    linkEncurtado=linkEncurtado,
-                    cliques=0
-                )
-                db.session.add(link)
-                db.session.commit()
-
-                linkPronto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
-                return render_template("link_pronto.html", linkPronto=linkPronto)
-
-        mensagem = "Endereço personalizado já está em uso"
-        return render_template("link.html", mensagem=mensagem)
+            for p in variarPossibilidades(linkEncurtado):
+                linkCerto = Link.query.filter(Link.linkEncurtado.like(p)).first()
+                print(p)
+                if linkCerto !=None:
+                    mensagem = "Endereço personalizado já está em uso"
+                    return render_template("link.html", mensagem=mensagem)
 
     link = Link(
         linkOriginal=linkOriginal,
@@ -76,38 +93,19 @@ def enviar_link():
 
     return render_template("link_pronto.html", linkPronto=linkPronto)
 
-@app.route('/<linkEmbaralhado>', methods=["GET"])
+@app.route('/<linkEmbaralhado>', methods=["GET"]) #Rota para receber o Link e redirecioná-lo ao Link Original
 def receber_link(linkEmbaralhado):
 
     if("i" in linkEmbaralhado or "I" in linkEmbaralhado or "l" in linkEmbaralhado or "L" in linkEmbaralhado):
         
         print("Passou pelo if de i ou L")
 
-        substituicoes = {
-        'i': ['I', 'l'],
-        'I': ['i', 'L'],
-        'l': ['L', 'i'],
-        'L': ['l', 'I']
-        }
-        
-        listaPossibilidades = []
-        
-        for char in linkEmbaralhado:
-            if char in substituicoes:
-                listaPossibilidades.append(substituicoes[char] + [char])
-            else:
-                listaPossibilidades.append([char])
-        
-        todasCombinacoes = product(*listaPossibilidades)
-        
-        possibilidades = [''.join(combinacoes) for combinacoes in todasCombinacoes]
-        
-
-    for p in possibilidades:
-        linkCerto = Link.query.filter(Link.linkEncurtado.like(p)).first()
-        #print(p)
-        if linkCerto !=None:
-            return redirect(linkCerto.linkOriginal)
+        for p in variarPossibilidades(linkEmbaralhado):
+            linkCerto = Link.query.filter(Link.linkEncurtado.like(p)).first()
+            print(p)
+            if linkCerto !=None:
+                contagemCliques(linkCerto)
+                return redirect(linkCerto.linkOriginal)
     
     linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
 
@@ -119,10 +117,7 @@ def receber_link(linkEmbaralhado):
         return render_template("404.html")
 
     else:
-        linkCerto.cliques = int(linkCerto.cliques)+1
-
-        db.session.add(linkCerto)
-        db.session.commit()
+        contagemCliques(linkCerto)
 
         if (linkDenunciado):
             return render_template("aviso.html")
