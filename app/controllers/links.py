@@ -4,7 +4,7 @@ from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, pyperclip, time, re
 from itertools import product
 
-def variarPossibilidades(link):
+def variarPossibilidades(link): #Função para verificar todas as possibilidades com links que possuam I ou L.
 
     substituicoes = {
         'i': ['I', 'l'],
@@ -27,7 +27,7 @@ def variarPossibilidades(link):
 
     return possibilidades
 
-def contagemCliques(link):
+def contagemCliques(link): #Função para acrescentar mais um clique ao saldo de cliques.
     link.cliques = int(link.cliques)+1
 
     db.session.add(link)
@@ -35,7 +35,7 @@ def contagemCliques(link):
     
     return link
 
-def verificacaoTextoURL(link):
+def verificacaoTextoURL(link): #Função para verificar se há texto antes do link.
 
     url = r"https?://[^\s]+"
     match = re.search(url, link)
@@ -45,7 +45,7 @@ def verificacaoTextoURL(link):
     else:
         return False
 
-def verificacaoURL(link):
+def verificacaoURL(link): #Função para verificar se o dado recebido possui um link.
 
     url = r"https?://[^\s]+"
     match = re.search(url, link)
@@ -55,7 +55,7 @@ def verificacaoURL(link):
     else:
         return False
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"]) #Rota inicial.
 def inicio():
     return render_template("link.html")
 

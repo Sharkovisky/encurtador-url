@@ -39,3 +39,6 @@ form{
     width: 50vw;
     padding: 0px;
 }
+/*@media only screen and (min-width: 720px) and (max-width: 1280px){
+    …
+}*/
