@@ -12,7 +12,9 @@ logging.basicConfig(
 )
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nelson-neto:tcc2024nelson@localhost/encurtador'
+"""
+
+"""
 
 ## https://phpmyadmin.code.fslab.dev/index.php
 ## Fazer login com mesmo usuário e senha do code-server
@@ -23,9 +25,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db, compare_type=True)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
-
-#api = Api(app, title='Documentação do Encurtador de URL', version='1.0', description='API de Encurtador de URL',prefix='/api')
-#api = swagger.docs(app, apiVersion='0.1')
 
 from app.models.tables import Usuario
 from app.models.tables import Link

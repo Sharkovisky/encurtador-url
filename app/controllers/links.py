@@ -4,7 +4,24 @@ from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, pyperclip, time, re
 from itertools import product
 
-def variarPossibilidades(link): #Função para verificar todas as possibilidades com links que possuam I ou L.
+def variarPossibilidades(link):
+
+    """
+    Função para verificar todas as possibilidades possíveis com links que possuam I ou L.
+
+    :param link: Recebimento do link encurtado depois da rota '/'.
+    :type link(String(100)):
+    :return: Retorna um Array com todas as possibilidades de links com a troca das letras "I" e "L".
+    :rtype: String
+    :raises ValueError: Se a String estiver vazia
+
+    Example:
+        >>> variarPossibilidades("https://g1.globo.com/")
+        ["https://g1.globo.com/", "https://g1.giobo.com/", "https://g1.gIobo.com/", "https://g1.gLobo.com/"]
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
 
     substituicoes = {
         'i': ['I', 'l'],
@@ -27,7 +44,25 @@ def variarPossibilidades(link): #Função para verificar todas as possibilidades
 
     return possibilidades
 
-def contagemCliques(link): #Função para acrescentar mais um clique ao saldo de cliques.
+def contagemCliques(link):
+
+    """
+    Função para acrescentar mais um clique ao saldo de cliques.
+
+    :param link: Recebe a String link, a qual será consultada no banco de dados.
+    :type link(String(100)):
+    :return: Retorna um objeto chamado 'link' com um acréscimo ao valor de cliques.
+    :rtype: String
+    :raises ValueError: Se a String estiver vazia
+
+    Example:
+        >>> contagemCliques("portal_IFRO")
+        1
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
+
     link.cliques = int(link.cliques)+1
 
     db.session.add(link)
@@ -35,7 +70,26 @@ def contagemCliques(link): #Função para acrescentar mais um clique ao saldo de
     
     return link
 
-def verificacaoTextoURL(link): #Função para verificar se há texto antes do link.
+def verificacaoTextoURL(link):
+
+    """
+    Função para verificar se há texto antes do link.
+
+    :param link: Recebe a String link, a qual será verificada se existe texto antes do link.
+    :type link(String(100)):
+    :return: Retorna True para quando a condição é verdadeira em ter texto antes do link. Retorna falso para quando a condição é falsa em ter texto antes do link.
+    :rtype: String
+    :raises ValueError: Se a String estiver vazia
+
+    Example:
+        >>> verificacaoTextoURL("Fonte: https://g1.globo.com/")
+        True
+        >>> verificacaoTextoURL("https://g1.globo.com/")
+        False
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
 
     url = r"https?://[^\s]+"
     match = re.search(url, link)
@@ -45,7 +99,26 @@ def verificacaoTextoURL(link): #Função para verificar se há texto antes do li
     else:
         return False
 
-def verificacaoURL(link): #Função para verificar se o dado recebido possui um link.
+def verificacaoURL(link):
+
+    """
+    Função para verificar se o dado recebido possui um link.
+
+    :param link: Recebe a String link, a qual será verificada se é um link de fato.
+    :type link(String(100)):
+    :return: Retorna True para quando a condição é verdadeira sobre a String ser um link. Retorna falso para quando a condição é falsa sobre a String ser um link.
+    :rtype: String
+    :raises ValueError: Se a String estiver vazia
+
+    Example:
+        >>> verificacaoURL("https://g1.globo.com/")
+        True
+        >>> verificacaoURL(" ")
+        False
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
 
     url = r"https?://[^\s]+"
     match = re.search(url, link)
@@ -55,12 +128,42 @@ def verificacaoURL(link): #Função para verificar se o dado recebido possui um 
     else:
         return False
 
-@app.route('/', methods=["GET", "POST"]) #Rota inicial.
+@app.route('/', methods=["GET", "POST"])
 def inicio():
+
+    """
+    Função de Rota inicial.
+
+    :param link:
+    :type:
+    :return: Retorna o render_template com o arquivo de rota inicial.
+    :rtype:
+    :raises ValueError:
+
+    Example:
+        
+        .. note::
+    """
+
     return render_template("link.html")
 
-@app.route('/encurtarLink', methods=["POST"]) #Rota para receber o Link, encurtá-lo e devolvê-lo ao usuário.
+@app.route('/encurtarLink', methods=["POST"])
 def enviar_link():
+
+    """
+    Função de Rota para receber o Link, encurtá-lo e devolvê-lo ao usuário.
+
+    :param link:
+    :type:
+    :return: Retorna o render_template com o template de link_pronto com o link encurtado ao usuário.
+    :rtype:
+    :raises ValueError:
+
+    Example:
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
 
     linkOriginal = request.form["linkOriginal"]
     linkEncurtado = request.form["linkEncurtado"]
@@ -120,8 +223,25 @@ def enviar_link():
 
     return render_template("link_pronto.html", linkPronto=linkPronto)
 
-@app.route('/<linkEmbaralhado>', methods=["GET"]) #Rota para receber o Link e redirecioná-lo ao Link Original
+@app.route('/<linkEmbaralhado>', methods=["GET"])
 def receber_link(linkEmbaralhado):
+
+    """
+    Função de Rota para receber o Link e redirecioná-lo ao Link Original.
+
+    :param link: Recebe a String link, a qual será verificado se há I ou L em sua composição e retornará ao usuário caso tenha sido encontrado um link no banco de dados.
+    :type link(String(100)):
+    :return: Retorna o redirecionamento até o linkOriginal para a página encurtada do usuário.
+    :rtype: String
+    :raises ValueError: Se a String estiver vazia
+
+    Example:
+        >>> receber_link("ROoLjLp")
+        redirect(linkCerto.linkOriginal)
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
 
     if("i" in linkEmbaralhado or "I" in linkEmbaralhado or "l" in linkEmbaralhado or "L" in linkEmbaralhado):
         
@@ -161,6 +281,23 @@ def receber_linkDenunciado(linkEmbaralhado):
 
 @app.route('/contador', methods=["GET"])
 def contador_links():
+
+    """
+    Função de Rota para mostrar o contador de links mais acessados.
+
+    :param link:
+    :type:
+    :return: Retorna o render_template da página de contador com a consulta ao banco de dados.
+    :rtype:
+    :raises ValueError:
+
+    Example:
+        >>> contador_links()
+        render_template("contador.html", query=query)
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
 
     query = Link.query.order_by(Link.cliques.desc()).limit(10).all()
     
