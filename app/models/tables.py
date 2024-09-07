@@ -26,7 +26,7 @@ class LinksProibidos(db.Model):
     __tablename__ = "linksProibidos"
 
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(20), unique=True, nullable=False)
+    nome = db.Column(db.String(40), unique=True, nullable=False)
 
     def __repr__(self):
         return "<Link Proibido %s>" % self.nome

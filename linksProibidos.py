@@ -12,3 +12,7 @@ db.session.commit()
 l3 = LinksProibidos(nome = "encurtador.com.br")
 db.session.add(l3)
 db.session.commit()
+
+l4 = LinksProibidos(nome = "e.fslab.dev")
+db.session.add(l3)
+db.session.commit()

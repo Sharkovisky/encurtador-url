@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
-import string, random, requests, pyperclip, time, re
+import string, random, requests, pyperclip, time, re, urllib.parse
 from itertools import product
 
 def variarPossibilidades(link):
@@ -128,6 +128,16 @@ def verificacaoURL(link):
     else:
         return False
 
+def verificar_link_proibido(link):
+    url_dividida = urllib.parse.urlparse(link)
+    dominio = url_dividida.netloc
+    link_proibido = LinksProibidos.query.filter_by(nome=dominio).first()
+
+    if link_proibido:
+        return True
+    else:
+        return False
+
 @app.route('/', methods=["GET", "POST"])
 def inicio():
 
@@ -167,17 +177,14 @@ def enviar_link():
 
     linkOriginal = request.form["linkOriginal"]
     linkEncurtado = request.form["linkEncurtado"]
-    
-    #linksProibidos = LinksProibidos.query.filter(LinksProibidos.nome.like('%'+linkOriginal+'%')).first()
-    #linksProibidos = LinksProibidos.query.all()
-
-    #if linksProibidos in linkOriginal:
-        #mensagem="Links encurtados não podem ser reencurtados"
-        #return render_template("link.html", mensagem=mensagem)
 
     app.logger.info(
         "O link encurtado veio null? " + str(linkEncurtado)
     )
+
+    if (verificar_link_proibido(linkOriginal)==True):
+        mensagem = "Não é permitido encurtar links de outros encurtadores"
+        return render_template("link.html", mensagem=mensagem)
 
     if (verificacaoTextoURL(linkOriginal)==True):
         mensagem = "Não é permitido ter texto antes do link"
