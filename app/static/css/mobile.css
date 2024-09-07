@@ -1,0 +1,63 @@
+/* Estilo do menu */
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+/* Estilo do botão hambúrguer */
+.menu-hamburguer {
+    display: none;
+}
+
+.menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 4px;
+    background-color: #333;
+}
+
+@media (max-width: 768px) {
+    .menu div {
+        display: none;
+    }
+
+    .menu-hamburguer {
+        display: block;
+    }
+}
+
+/* Responsivo - Menu para Mobile */
+@media (max-width: 768px) {
+    nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .menu-hamburguer {
+        display: block;
+    }
+
+    .menu-hamburguer .menu {
+        display: none;
+    }
+
+    .menu-hamburguer .menu.open {
+        display: flex;
+    }
+}

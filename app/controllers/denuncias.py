@@ -9,7 +9,7 @@ def denuncia():
     """
     Função de Rota de Denúncias.
 
-    :param link:
+    :param:
     :type:
     :return: Retorna o render_template com o arquivo de rota de denúncias.
     :rtype:
@@ -27,7 +27,7 @@ def denunciar():
     """
     Função de Rota para receber o link a ser denunciado e inseri-lo na tabela de links denunciados.
 
-    :param link:
+    :param:
     :type:
     :return: Retorna o render_template com o arquivo de rota de denúncias, com uma mensagem dependendo da ação do usuário.
     :rtype:
@@ -37,7 +37,6 @@ def denunciar():
         >>> denunciar()
         return render_template("denuncias.html", mensagem=mensagem)
         
-        .. note::
     """
 
     linkDenunciado = request.form["linkDenunciado"]
