@@ -183,15 +183,15 @@ def enviar_link():
     )
 
     if (verificar_link_proibido(linkOriginal)==True):
-        mensagem = "Não é permitido encurtar links de outros encurtadores"
+        mensagem = "Não é permitido encurtar links de outros encurtadores."
         return render_template("link.html", mensagem=mensagem)
 
     if (verificacaoTextoURL(linkOriginal)==True):
-        mensagem = "Não é permitido ter texto antes do link"
+        mensagem = "Não é permitido ter texto antes do link."
         return render_template("link.html", mensagem=mensagem)
 
     if (verificacaoURL(linkEncurtado)==True):
-        mensagem = "Não é permitido ter como texto personalizado um outro link"
+        mensagem = "Não é permitido ter como texto personalizado um outro link."
         return render_template("link.html", mensagem=mensagem)
 
     if (linkEncurtado == ""):
@@ -204,15 +204,17 @@ def enviar_link():
 
     else:
         
+        linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
+        if linkCerto !=None:
+            mensagem = "Endereço personalizado já está em uso."
+            return render_template("link.html", mensagem=mensagem)
+
         if("i" in linkEncurtado or "I" in linkEncurtado or "l" in linkEncurtado or "L" in linkEncurtado):
-        
-            print("Passou pelo if de i ou L")
 
             for p in variarPossibilidades(linkEncurtado):
                 linkCerto = Link.query.filter(Link.linkEncurtado.like(p)).first()
-                print(p)
                 if linkCerto !=None:
-                    mensagem = "Endereço personalizado já está em uso"
+                    mensagem = "Endereço personalizado já está em uso."
                     return render_template("link.html", mensagem=mensagem)
 
     link = Link(

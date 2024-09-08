@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block conteudo %}
-<div class="text-center text-light header" style="height: 20vh; font-size: 30px; padding-top: 40px;">
-    <h1>https://e.fslab.dev/{{ linkPronto.linkEncurtado }}</h1>
-    <!--<button onclick=""><img width="25px" src="../static/imgs/copiar-alt.png"></button>-->
+<div class="text-center text-light header" style="height: 20vh; font-size: 30px; padding-top: 40px; display: box">
+    <div class="d-flex d-inline-flex">
+        <h1 id="link">https://e.fslab.dev/{{ linkPronto.linkEncurtado }}</h1>
+    </div>
+    <div class="d-flex d-inline-flex">
+        <button class="btn botao" onclick="copyToClipboard()" style="float: right; position: relative; bottom: 10px; left: 10px;"><img width="30px" src="../static/imgs/copiar-96.png" >Copiar Link</button>
+    </div>
 </div>
 {% endblock %}
