@@ -1,6 +1,6 @@
 import pytest
 
-from links import *
+from app.controllers.links import *
 
 def test_verificacaoURL():
     assert verificacaoURL("https://g1.globo.com/")
