@@ -276,16 +276,8 @@ def receber_link(linkEmbaralhado):
         contagemCliques(linkCerto)
 
         if (linkDenunciado):
-            return render_template("aviso.html")
+            return render_template("aviso.html", linkEmbaralhado=linkEmbaralhado)
 
-    return redirect(linkCerto.linkOriginal)
-
-@app.route('/acessarLinkDenunciado/<linkEmbaralhado>', methods=["GET", "POST"])
-def receber_linkDenunciado(linkEmbaralhado):
-        
-    linkEncurtado = request.form["linkEncurtado"]
-    
-    linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
     return redirect(linkCerto.linkOriginal)
 
 @app.route('/contador', methods=["GET"])

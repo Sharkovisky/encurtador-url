@@ -51,5 +51,13 @@ def denunciar():
     db.session.add(denuncia)
     db.session.commit()
 
-    mensagem = "Link denunciado"
+    mensagem = "O link foi denunciado."
     return render_template("denuncias.html", mensagem=mensagem)
+
+@app.route('/acessarLinkDenunciado', methods=["GET", "POST"])
+def receber_linkDenunciado():
+        
+    linkEncurtado = request.form["linkEncurtado"]
+    
+    linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
+    return redirect(linkCerto.linkOriginal)
