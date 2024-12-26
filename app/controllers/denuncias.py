@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
-import string, random, requests
+import string, random, requests, urllib.parse
 
 @app.route('/denuncias', methods=["GET"])
 def denuncia():
@@ -41,8 +41,15 @@ def denunciar():
 
     linkDenunciado = request.form["linkDenunciado"]
 
+    url_dividida = urllib.parse.urlparse(linkDenunciado)
+
+    if url_dividida.netloc:
+        linkEncurtado = url_dividida.path
+        linkEncurtado = linkEncurtado.replace("/", "")
+        linkDenunciado = linkEncurtado
+    
     if(linkDenunciado == ""):
-        mensagem = "Campo está vazio."
+        mensagem = "O campo está vazio."
         return render_template("denuncias.html", mensagem=mensagem)
 
     denuncia = Denuncias(

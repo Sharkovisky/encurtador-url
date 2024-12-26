@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
-import string, random, requests, pyperclip, time, re, urllib.parse
+import string, random, requests, time, re, urllib.parse
 from itertools import product
 
 def variarPossibilidades(link):
@@ -227,9 +227,6 @@ def enviar_link():
 
     linkPronto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
 
-    #pyperclip.copy('The text to be copied to the clipboard.')
-    #copiar = pyperclip.paste()
-
     return render_template("link_pronto.html", linkPronto=linkPronto)
 
 @app.route('/<linkEmbaralhado>', methods=["GET"])
@@ -251,6 +248,10 @@ def receber_link(linkEmbaralhado):
         .. note::
             Esta função assume que os valores são Strings.
     """
+    linkDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkEmbaralhado)).first()
+    if (linkDenunciado!=None):
+        print("O link acessado foi denunciado:", linkDenunciado.nome)
+        return render_template("aviso.html", linkEmbaralhado=linkEmbaralhado)
 
     if("i" in linkEmbaralhado or "I" in linkEmbaralhado or "l" in linkEmbaralhado or "L" in linkEmbaralhado):
         
@@ -264,10 +265,6 @@ def receber_link(linkEmbaralhado):
                 return redirect(linkCerto.linkOriginal)
     
     linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEmbaralhado)).first()
-
-    linkDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkEmbaralhado)).first()
-    if (linkDenunciado!=None):
-        print("O link acessado foi denunciado:", linkDenunciado.nome)
 
     if (linkCerto == None):
         return render_template("404.html")
