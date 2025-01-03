@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
+from flask_login import LoginManager
 #from flask_restplus import Api
 from flask_restful_swagger import swagger
 
@@ -36,7 +37,13 @@ Inicialização da função de 'Migrate', pacote este que inicia as tabelas ao b
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 """
-Inicialização da função de 'Migrate', pacote este que inicia as tabelas ao banco de daddos.
+Inicialização da função de 'Migrate', pacote este que inicia as tabelas ao banco de dados.
+"""
+
+login_manager = LoginManager(app)
+login_manager.init_app(app)
+"""
+Inicialização da função de 'Login'.
 """
 
 from app.models.tables import Usuario
@@ -45,3 +52,4 @@ from app.models.tables import Link
 from app.controllers import links
 from app.controllers import descricao
 from app.controllers import denuncias
+from app.controllers import pessoas
