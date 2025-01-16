@@ -228,7 +228,7 @@ def enviar_link():
         linkOriginal=linkOriginal,
         linkEncurtado=linkEncurtado,
         cliques=0,
-        Usuario=usuario.id
+        usuario=usuario.id
     )
     db.session.add(link)
     db.session.commit()
@@ -308,3 +308,27 @@ def contador_links():
     query = Link.query.order_by(Link.cliques.desc()).limit(10).all()
     
     return render_template("contador.html", query=query)
+
+@app.route('/meusLinks', methods=["GET"])
+@login_required
+def meus_links():
+
+    """
+    Função de Rota para mostrar o contador de links mais acessados.
+
+    :param link:
+    :type:
+    :return: Retorna o render_template da página de contador com a consulta ao banco de dados.
+    :rtype:
+    :raises ValueError:
+
+    Example:
+        >>> contador_links()
+        render_template("contador.html", query=query)
+
+        .. note::
+            Esta função assume que os valores são Strings.
+    """
+    query = Link.query.filter(Link.usuario.like(current_user.id)).all()
+    
+    return render_template("meus_links.html", query=query)
