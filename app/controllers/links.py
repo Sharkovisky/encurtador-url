@@ -1,8 +1,9 @@
 from app import app, db
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, time, re, urllib.parse
 from itertools import product
+from flask_login import login_required, current_user
 
 def variarPossibilidades(link):
 
@@ -217,10 +218,17 @@ def enviar_link():
                     mensagem = "Endereço personalizado já está em uso."
                     return render_template("link.html", mensagem=mensagem)
 
+    if current_user:  # Verifica se o usuário está logado
+        usuario = Usuario.query.filter(Usuario.id.like(current_user.id)).first()
+
+    else:
+        usuario = None
+
     link = Link(
         linkOriginal=linkOriginal,
         linkEncurtado=linkEncurtado,
-        cliques=0
+        cliques=0,
+        Usuario=usuario.id
     )
     db.session.add(link)
     db.session.commit()

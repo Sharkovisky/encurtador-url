@@ -1,55 +1,48 @@
 {% extends "base.html" %}
 {% block conteudo %}
 <div class="container header" style="border: 15px white;">
-    <form action="/cadastro" method="POST" class="form">
-        <div class="mb-1 text-secondary">
-            <i class="bi bi-person-fill"></i>
-            <label for="inputName" class="form-label">Nome</label>
-            <input type="text" name="inputName" id="inputName" class="form-control capitalized" required>
-        </div>
-        <div class="mb-1 text-secondary">
-            <i class="bi bi-card-heading"></i>
-            <label for="inputCPF" class="form-label">CPF</label>
-            <input type="text" name="inputCPF" id="inputCPF" data-js="inputCPF" class="form-control" required>
-        </div>
-        <div class="mb-1 text-secondary">
-            <i class="bi bi-envelope-fill"></i>
-            <label for="inputEmail" class="form-label">Endereço de email</label>
-            <input type="email" name="inputEmail" id="inputEmail" class="form-control" required>
-        </div>
-        <div class="mb-1 text-secondary">
-            <i class="bi bi-lock-fill"></i>
-            <label for="inputPassword" class="form-label">Senha</label>
-            <input type="password" name="inputPassword" id="inputPassword" class="form-control"
-                title="Para sua segurança, sua senha deve conter ao menos 8 caracteres." required>
-        </div>
-        <div class="mb-1 text-secondary">
-            <i class="bi bi-lock-fill"></i><i class="bi bi-check"></i>
-            <label for="inputPasswordConfirm" class="form-label">Senha</label>
-            <input type="password" name="inputPasswordConfirm" id="inputPasswordConfirm"
-                class="form-control" required>
-        </div>
-        <div class="d-flex justify-content-between form-group">
-            {% if mensagem %}
-            <div class="form-text text-danger"><i class="bi bi-exclamation-circle"></i>
-                {{mensagem}}</div>
-            {% endif %}
-        </div>
-        <!-- <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" required>
-            <p>
-                <small>
-                    Concordo com os <a class="text-blue-flag">Termos de Serviço</a> e com a
-                    <a class="text-blue-flag">Política de Privacidade</a>
-                </small>
-            </p>
-        </div> -->
-        <div class="d-grid gap-2 col-8 mx-auto mt-3">
-            <input type="submit" value="Cadastre-se"
-                class="btn btn-blue-flag text-light text-uppercase fs-5"></input>
-        </div>
-        <p class="form-text text-center">Já tem uma conta? <a href="/login"
-                class="text-blue-flag text-decoration-none">Faça login</a></p>
-    </form>
+    <div class="card-body input-group container-sm container_form">
+        <form action="/cadastro" method="POST" class="form">
+            <div class="mb-1 text-secondary">
+                <i class="bi bi-person-fill"></i>
+                <label for="inputName" class="form-label">Nome</label>
+                <input type="text" name="inputName" id="inputName" class="form-control capitalized" required>
+            </div>
+            <div class="mb-1 text-secondary">
+                <i class="bi bi-card-heading"></i>
+                <label for="inputCPF" class="form-label">CPF</label>
+                <input type="text" name="inputCPF" id="inputCPF" data-js="inputCPF" class="form-control" required>
+            </div>
+            <div class="mb-1 text-secondary">
+                <i class="bi bi-envelope-fill"></i>
+                <label for="inputEmail" class="form-label">Endereço de email</label>
+                <input type="email" name="inputEmail" id="inputEmail" class="form-control" required>
+            </div>
+            <div class="mb-1 text-secondary">
+                <i class="bi bi-lock-fill"></i>
+                <label for="inputPassword" class="form-label">Senha</label>
+                <input type="password" name="inputPassword" id="inputPassword" class="form-control"
+                    title="Para sua segurança, sua senha deve conter ao menos 8 caracteres." required>
+            </div>
+            <div class="mb-1 text-secondary">
+                <i class="bi bi-lock-fill"></i><i class="bi bi-check"></i>
+                <label for="inputPasswordConfirm" class="form-label">Senha</label>
+                <input type="password" name="inputPasswordConfirm" id="inputPasswordConfirm"
+                    class="form-control" required>
+            </div>
+            <div class="d-flex justify-content-between form-group">
+                {% if mensagem %}
+                <div class="form-text text-danger"><i class="bi bi-exclamation-circle"></i>
+                    {{mensagem}}</div>
+                {% endif %}
+            </div>
+            <div class="d-grid gap-2 col-8 mx-auto mt-3">
+                <input type="submit" value="Cadastre-se"
+                    class="btn btn-blue-flag text-light text-uppercase fs-5"></input>
+            </div>
+            <p class="form-text text-center">Já tem uma conta? <a href="/login"
+                    class="text-blue-flag text-decoration-none">Faça login</a></p>
+        </form>
+    </div>
 </div>
 {% endblock %}

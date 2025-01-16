@@ -11,9 +11,8 @@ from datetime import datetime
 import bcrypt
 
 @login_manager.user_loader
-def usuario(usuario):
+def get_usuario(usuario_id):
     return Usuario.query.filter_by(id=usuario_id).first()
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -30,6 +29,9 @@ def login():
         
         if usuario:
             auth = bcrypt.checkpw(senha.encode("utf-8"), usuario.senha.encode("utf-8"))
+            session['logged_in'] = True
+            session['user_id'] = usuario.id
+            login_user(usuario)
             if not usuario or not auth:
                 mensagem = "E-mail ou senha inválidos"
                 return render_template("login.html", mensagem=mensagem)
@@ -37,7 +39,7 @@ def login():
             login_user(usuario)
             usuario = usuario.id
             
-            return redirect("/home")
+    return redirect("/")
 
 
 @app.route("/cadastro", methods=["GET", "POST"])
@@ -96,3 +98,9 @@ def cadastro():
         db.session.commit()
 
     return redirect("/login")
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    session['logged_in'] = False
+    return redirect("/")

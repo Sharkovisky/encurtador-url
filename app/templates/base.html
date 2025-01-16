@@ -23,10 +23,20 @@
                 <div class="p-3"><a href="descricao" class="link-light">O que é?</a></div>
                 <div class="p-3"><a href="denuncias" class="link-light">Denúncias</a></div>
                 <div class="p-3"><a href="contador" class="link-light">Contador de Cliques</a></div>
+                {% if session.get('logged_in') %}
+                    <div class="p-3"><a href="contador" class="link-light">Meus links</a></div>
+                {% else %}
+                {% endif %}
             </div>
             <div class="p-2">
                 <!--<button type="button" class="btn btn-light"><a href="login"></a>Login</button>-->
-                <a href="login" class="btn btn-light">Login</a>
+                {% if session.get('logged_in') %}
+                    <a href="logout" class="btn btn-danger">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                {% else %}
+                    <a href="login" class="btn btn-light">Login</a>
+                {% endif %}
             </div>
         </div>
     </header>

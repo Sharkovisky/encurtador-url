@@ -18,6 +18,8 @@ Esta aplicação utiliza o framework Python Flask, que une funções de API e fr
 
 Inicialização da aplicação Flask designando 'app' como seu nome.
 """
+app.secret_key = 'saidaquihacker'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 ## https://phpmyadmin.code.fslab.dev/index.php
 ## Fazer login com mesmo usuário e senha do code-server
