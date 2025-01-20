@@ -4,14 +4,22 @@
 <table id="data" class="table text-light">
     <thead>
       <tr>
-        <th>Esses são os links criados pelo seu usuário.</th>
+        <th>Link original</th>
+        <th>Link encurtado</th>
+        <th></th>
         <th>Contagem</th>
       </tr>
     </thead>
     <tbody>
       {% for link in query %}
         <tr>
-          <td>{{ link.linkEncurtado }}</td>
+          <td>{{ link.linkOriginal }}</td>
+          <td id="link{{ i }}">https://e.fslab.dev/{{ link.linkEncurtado }}</td>
+          <td>
+            <div class="d-flex d-inline-flex">
+              <button class="btn copy-btn" onclick="copyToClipboard()"><img width="15px" src="../static/imgs/copiar-96.png" ></button>
+            </div>
+          </td>
           <td>{{ link.cliques }}</td>
         </tr>
       {% endfor %}

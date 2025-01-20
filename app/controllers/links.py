@@ -218,18 +218,24 @@ def enviar_link():
                     mensagem = "Endereço personalizado já está em uso."
                     return render_template("link.html", mensagem=mensagem)
 
-    if current_user:  # Verifica se o usuário está logado
+    if current_user.is_authenticated:  # Verifica se o usuário está logado
         usuario = Usuario.query.filter(Usuario.id.like(current_user.id)).first()
+        link = Link(
+            linkOriginal=linkOriginal,
+            linkEncurtado=linkEncurtado,
+            cliques=0,
+            usuario=usuario.id
+        )
 
     else:
         usuario = None
+        link = Link(
+            linkOriginal=linkOriginal,
+            linkEncurtado=linkEncurtado,
+            cliques=0,
+            usuario=usuario
+        )
 
-    link = Link(
-        linkOriginal=linkOriginal,
-        linkEncurtado=linkEncurtado,
-        cliques=0,
-        usuario=usuario.id
-    )
     db.session.add(link)
     db.session.commit()
 
