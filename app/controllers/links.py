@@ -139,6 +139,12 @@ def verificar_link_proibido(link):
     else:
         return False
 
+def verificar_link_com_espacos(link):
+    return bool(re.match(r"^\S+$", link))
+
+def validar_apenas_letras(link):
+    return bool(re.match(r"^[A-Za-zÀ-ÿ\s]+$", link))
+
 @app.route('/', methods=["GET", "POST"])
 def inicio():
 
@@ -194,6 +200,14 @@ def enviar_link():
     if (verificacaoURL(linkEncurtado)==True):
         mensagem = "Não é permitido ter como texto personalizado um outro link."
         return render_template("link.html", mensagem=mensagem)
+
+    if (verificar_link_com_espacos(linkEncurtado)==False):
+        mensagem = "Não é permitido ter espaços entre as palavras."
+        return render_template("link.html", mensagem=mensagem)
+
+    if (validar_apenas_letras(linkEncurtado)==False):
+        mensagem = "Não é permitido ter números e/ou caracteres especiais no link personalizado."
+        return render_template("link.html", mensagem=mensagem) 
 
     if (linkEncurtado == ""):
         letras = string.ascii_uppercase+string.ascii_lowercase
