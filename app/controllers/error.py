@@ -20,3 +20,23 @@ def pagina_nao_encontrada(e):
     """
 
     return render_template("404.html"), 404
+
+@app.errorhandler(401)
+def acesso_nao_autorizado(e):
+
+    """
+    Função de Rota para erros número 401.
+
+    :param link:
+    :type:
+    :return: Retorna o render_template com o template de rota de erro 401.
+    :rtype:
+    :raises ValueError:
+
+    Example:
+
+        .. note:: 
+        
+    """
+
+    return render_template("401.html"), 401

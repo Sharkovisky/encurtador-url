@@ -1,9 +1,10 @@
-from app import app, db
+from app import app, db, os
 from flask import render_template, request, redirect, session
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, time, re, urllib.parse
 from itertools import product
 from flask_login import login_required, current_user
+from urllib.parse import urlparse
 
 def variarPossibilidades(link):
 
@@ -201,24 +202,26 @@ def enviar_link():
         mensagem = "Não é permitido ter como texto personalizado um outro link."
         return render_template("link.html", mensagem=mensagem)
 
-    if (verificar_link_com_espacos(linkEncurtado)==False):
-        mensagem = "Não é permitido ter espaços entre as palavras."
-        return render_template("link.html", mensagem=mensagem)
-
-    if (validar_apenas_letras(linkEncurtado)==False):
-        mensagem = "Não é permitido ter números e/ou caracteres especiais no link personalizado."
+    if (is_blocked(linkOriginal)==True):
+        mensagem = "Não é permitido encurtar link de sites adultos."
         return render_template("link.html", mensagem=mensagem) 
 
     if (linkEncurtado == ""):
         letras = string.ascii_uppercase+string.ascii_lowercase
         linkMisturado = ''.join((random.choice(letras)) for _ in range(7))
 
-        print("LINK MISTURADO AQUI: "+str(linkMisturado))
-
         linkEncurtado = linkMisturado
 
     else:
         
+        if (verificar_link_com_espacos(linkEncurtado)==False):
+            mensagem = "Não é permitido ter espaços entre as palavras."
+            return render_template("link.html", mensagem=mensagem)
+
+        if (validar_apenas_letras(linkEncurtado)==False):
+            mensagem = "Não é permitido ter números e/ou caracteres especiais no link personalizado."
+            return render_template("link.html", mensagem=mensagem) 
+
         linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
         if linkCerto !=None:
             mensagem = "Endereço personalizado já está em uso."
