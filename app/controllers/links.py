@@ -201,10 +201,10 @@ def enviar_link():
     if (verificacaoURL(linkEncurtado)==True):
         mensagem = "Não é permitido ter como texto personalizado um outro link."
         return render_template("link.html", mensagem=mensagem)
-
-    if (is_blocked(linkOriginal)==True):
-        mensagem = "Não é permitido encurtar link de sites adultos."
-        return render_template("link.html", mensagem=mensagem) 
+    
+    #if (is_blocked(linkOriginal)==True):
+        #mensagem = "Não é permitido encurtar link de sites adultos."
+        #return render_template("link.html", mensagem=mensagem) 
 
     if (linkEncurtado == ""):
         letras = string.ascii_uppercase+string.ascii_lowercase
@@ -281,12 +281,9 @@ def receber_link(linkEmbaralhado):
     """
     linkDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkEmbaralhado)).first()
     if (linkDenunciado!=None):
-        print("O link acessado foi denunciado:", linkDenunciado.nome)
         return render_template("aviso.html", linkEmbaralhado=linkEmbaralhado)
 
     if("i" in linkEmbaralhado or "I" in linkEmbaralhado or "l" in linkEmbaralhado or "L" in linkEmbaralhado):
-        
-        print("Passou pelo if de i ou L")
 
         for p in variarPossibilidades(linkEmbaralhado):
             linkCerto = Link.query.filter(Link.linkEncurtado.like(p)).first()

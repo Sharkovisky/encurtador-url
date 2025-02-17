@@ -1,17 +1,19 @@
 {% extends "base.html" %}
 {% block conteudo %}
-        <form action="/denunciarLink" method="POST" class="form" style="padding: 25px;">
-            <div class="card-body input-group container-sm container_form">
-                <label for="inputLinkEncurtado" class="form-label text-dark input-group-text" style="height: 5vh;">Link a ser denunciado:</label>
-                <input type="text" name="linkDenunciado" id="linkDenunciado" class="form-control" style="height: 5vh;">
+<div style="display: box; height: 25vh;"">
+    <form action="/denunciarLink" method="POST" class="form" style="padding: 25px;">
+        <div class="card-body input-group container-sm container_form">
+            <label for="inputLinkEncurtado" class="form-label text-dark input-group-text" style="height: 5vh;">Link a ser denunciado:</label>
+            <input type="text" name="linkDenunciado" id="linkDenunciado" class="form-control" style="height: 5vh;">
+        </div>
+        <div class="form-group container container_form" style="display: flex;">
+            <input type="submit" value="Denunciar" class="btn botao"></input>
+            {% if mensagem %}
+            <div class="form-text text-light danger" style="float: right; position: relative; bottom: 14px; left: 10px;"><i class="bi bi-exclamation-circle"></i>
+                {{mensagem}}
             </div>
-            <div class="form-group container container_form" style="display: flex;">
-                <input type="submit" value="Denunciar" class="btn botao"></input>
-                {% if mensagem %}
-                <div class="form-text text-light danger" style="float: right; position: relative; bottom: 14px; left: 10px;"><i class="bi bi-exclamation-circle"></i>
-                    {{mensagem}}
-                </div>
-                {% endif %}
-            </div>
-        </form>
+            {% endif %}
+        </div>
+    </form>
+</div>
 {% endblock %}

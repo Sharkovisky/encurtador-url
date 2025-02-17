@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 {% block conteudo %}
 <script src="{{ url_for('static', filename='scripts/popup.js') }}"></script>
-<form action="/encurtarLink" method="POST" class="form" style="padding: 25px;">
-    <div class="card-body input-group container-sm container_form">
-        <label for="inputLinkOriginal" class="form-label text-dark input-group-text" style="height: 5vh;">Link a ser encurtado</label>
-        <input type="url" name="linkOriginal" id="linkOriginal" class="form-control" style="height: 5vh;" required>
-    </div>
-    <div class="card-body input-group container container_form" style="padding-top: 10px;">
-        <label for="inputLinkEncurtado" class="form-label text-dark input-group-text" style="height: 5vh;">Link personalizado</label>
-        <input type="text" name="linkEncurtado" id="linkEncurtado" class="form-control" style="height: 5vh;" placeholder="(Opcional)">
-    </div>
-    <div class="form-group container container_form" style="display: flex;">
-        <input type="submit" value="Encurtar" class="btn botao"></input>
-        {% if mensagem %}
-        <div class="form-text text-light danger" style="float: right; position: relative; bottom: 14px; left: 10px;"><i class="bi bi-exclamation-circle"></i>
-            {{mensagem}}
+<div style="display: box; height: 25vh;">
+    <form action="/encurtarLink" method="POST" class="form" style="padding: 25px;">
+        <div class="card-body input-group container-sm container_form">
+            <label for="inputLinkOriginal" class="form-label text-dark input-group-text" style="height: 5vh;">Link a ser encurtado</label>
+            <input type="url" name="linkOriginal" id="linkOriginal" class="form-control" style="height: 5vh;" required>
         </div>
-        {% endif %}
-    </div>
-</form>
+        <div class="card-body input-group container container_form" style="padding-top: 10px;">
+            <label for="inputLinkEncurtado" class="form-label text-dark input-group-text" style="height: 5vh;">Link personalizado</label>
+            <input type="text" name="linkEncurtado" id="linkEncurtado" class="form-control" style="height: 5vh;" placeholder="(Opcional)">
+        </div>
+        <div class="form-group container container_form" style="display: flex;">
+            <input type="submit" value="Encurtar" class="btn botao"></input>
+            {% if mensagem %}
+            <div class="form-text text-light danger" style="float: right; position: relative; bottom: 14px; left: 10px;"><i class="bi bi-exclamation-circle"></i>
+                {{mensagem}}
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
 {% endblock %}

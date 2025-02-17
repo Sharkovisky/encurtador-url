@@ -36,8 +36,10 @@ def login():
                 mensagem = "E-mail ou senha inválidos"
                 return render_template("login.html", mensagem=mensagem)
         else:
-            login_user(usuario)
-            usuario = usuario.id
+            #login_user(usuario)
+            #usuario = usuario.id
+            mensagem = "E-mail ou senha inválidos"
+            return render_template("login.html", mensagem=mensagem)
             
     return redirect("/")
 
