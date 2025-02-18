@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block conteudo %}
-<form action="/login" method="POST" class="form"> 
+<form action="/login" method="POST" class="form">
     <div class="container header container_form pt-2 pb-2" style="border: 15px white;">
         <div class="mb-3">
             <i class="bi bi-person-fill"></i>
@@ -17,7 +17,7 @@
             <div class="form-text text-danger"><i class="bi bi-exclamation-circle"></i>
                 {{mensagem}}</div>
             {% endif %}
-                <!--<a href="/esqueci_minha_senha" class="form-text text-decoration-none">Esqueceu a
+            <!--<a href="/esqueci_minha_senha" class="form-text text-decoration-none">Esqueceu a
                     senha?</a>
                 -->
         </div>
@@ -26,6 +26,6 @@
         </div>
         <p class="text-center mt-lg-2">Não tem uma conta? <a href="/cadastro"
                 class="text-blue-flag text-decoration-none">Cadastre-se</a></p>
-    </form>
+</form>
 </div>
 {% endblock %}
