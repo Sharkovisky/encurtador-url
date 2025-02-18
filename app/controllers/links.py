@@ -287,7 +287,6 @@ def receber_link(linkEmbaralhado):
 
         for p in variarPossibilidades(linkEmbaralhado):
             linkCerto = Link.query.filter(Link.linkEncurtado.like(p)).first()
-            print(p)
             if linkCerto !=None:
                 contagemCliques(linkCerto)
                 return redirect(linkCerto.linkOriginal)
