@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block conteudo %}
 <div class="text-center text-light header" style="font-size: 30px; padding-top: 40px; display: box; height: 25vh;">
-    <h1>Você está entrando em um link que foi denunciado, tem certeza?</h1>
     <form action="/acessarLinkDenunciado" method="POST" class="form">
-        <input type="hidden" name="linkEncurtado" id="linkEncurtado" value="{{ linkEmbaralhado }}" class="form-control">
-        <input type="submit" value="Sim, tenho certeza." class="btn botao"></input>
+        <div class="container container_form">
+            <h1>Você está entrando em um link que foi denunciado, tem certeza?</h1>
+            <input type="hidden" name="linkEncurtado" id="linkEncurtado" value="{{ linkEmbaralhado }}" class="form-control">
+            <input type="submit" value="Sim, tenho certeza." class="btn botao"></input>
+        </div>
     </form>
 </div>
 {% endblock %}
