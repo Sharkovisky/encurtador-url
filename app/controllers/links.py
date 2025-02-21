@@ -146,6 +146,13 @@ def verificar_link_com_espacos(link):
 def validar_apenas_letras(link):
     return bool(re.match(r"^[A-Za-zÀ-ÿ\s]+$", link))
 
+def limite_caracteres(link):
+    MAXIMO_DE_CARACTERES = 45 #Este valor segue o máximo de caracteres estipulado no banco de dados, se alterar lá, é necessário alterar aqui.
+    if len(link) > MAXIMO_DE_CARACTERES:
+        return True
+    else:
+        return False
+
 @app.route('/', methods=["GET", "POST"])
 def inicio():
 
@@ -220,7 +227,11 @@ def enviar_link():
 
         if (validar_apenas_letras(linkEncurtado)==False):
             mensagem = "Não é permitido ter números e/ou caracteres especiais no link personalizado."
-            return render_template("link.html", mensagem=mensagem) 
+            return render_template("link.html", mensagem=mensagem)
+
+        if (limite_caracteres(linkEncurtado)==True):
+            mensagem = "Não é permitido links personalizados com mais de 45 caracteres."
+            return render_template("link.html", mensagem=mensagem)
 
         linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
         if linkCerto !=None:
