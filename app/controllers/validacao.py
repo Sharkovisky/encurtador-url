@@ -1,6 +1,8 @@
+from flask import render_template, request, redirect, session
 from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, time, re, urllib.parse
-from urllib.parse import urlparse
+from itertools import product
+from flask_login import login_required, current_user
 
 def variarPossibilidades(link):
 
