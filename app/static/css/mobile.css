@@ -10,14 +10,7 @@ nav ul {
 }
 
 .menu-toggle {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
+    display: none;
 }
 
 .menu-toggle .bar {
@@ -34,10 +27,12 @@ nav ul {
     .menu-hamburguer {
         display: block;
     }
-}
-
-/* Responsivo - Menu para Mobile */
-@media (max-width: 768px) {
+    footer{
+        display: none;
+    }
+    main {
+        padding: 0;
+    }
     nav ul {
         display: none;
         flex-direction: column;
@@ -59,5 +54,15 @@ nav ul {
 
     .menu-hamburguer .menu.open {
         display: flex;
+    }
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
     }
 }
