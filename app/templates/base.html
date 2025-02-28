@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,19 +8,30 @@
     <link rel="icon" href="../static/imgs/ifro-icon.png">
     <script src="js/main.js" defer></script>
     <script src="static/scripts/mobile.js" defer></script>
+    <script src="static/scripts/menu.js" defer></script>
     <script src="{{ url_for('static', filename='scripts/copy.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/copy2js') }}"></script>
     <title>Encurtador de URL do IFRO</title>
 </head>
+
 <body>
     <header class="header d-flex menu-hamburguer">
         <div class="container d-flex justify-content-around text-light">
-            <div class="menu-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <div class="menu-container">
+                <button class="hamburguer btn" onclick="toggleMenu()">☰</button>
+                <nav id="menu" class="menu-ham">
+                    <button class="close-btn" onclick="toggleMenu()">✖</button>
+                    <div class="p-3"><a href="/" class="link-light">Página Inicial</a></div>
+                    <div class="p-3"><a href="descricao" class="link-light">O que é?</a></div>
+                    <div class="p-3"><a href="denuncias" class="link-light">Denúncias</a></div>
+                    <div class="p-3"><a href="contador" class="link-light">Contador de Cliques</a></div>
+                    {% if session.get('logged_in') %}
+                    <div class="p-3"><a href="meusLinks" class="link-light">Meus links</a></div>
+                    {% else %}
+                    {% endif %}
+                </nav>
             </div>
-            <div class="d-flex justify-content-between menu">
+            <div class="d-flex justify-content-between menu-padrao">
                 <div class="p-3"><a href="/" class="link-light">Página Inicial</a></div>
                 <div class="p-3"><a href="descricao" class="link-light">O que é?</a></div>
                 <div class="p-3"><a href="denuncias" class="link-light">Denúncias</a></div>
@@ -96,4 +108,5 @@
         </script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </body>
+
 </html>

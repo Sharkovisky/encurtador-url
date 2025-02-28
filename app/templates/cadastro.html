@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block conteudo %}
 <form action="/cadastro" method="POST" class="form">
-    <div class="container header container_form pt-2 pb-2" style="border: 15px white;">
+    <div class="container header container_form pt-2 pb-2" style="padding: 25px;">
         <div class="card-body input-group container container_form" style="padding-top: 10px;">
             <label for="inputName" class="form-label text-dark input-group-text" style="height: 5vh;">Nome:</label>
             <input type="text" name="inputName" id="inputName" class="form-control" style="height: 5vh;" required>
@@ -16,15 +16,17 @@
         </div>
         <div class="card-body input-group container container_form" style="padding-top: 10px;">
             <label for="inputPassword" class="form-label text-dark input-group-text" style="height: 5vh;">Senha:</label>
-            <input type="password" name="inputPassword" id="inputPassword" class="form-control" style="height: 5vh;" required>
+            <input type="password" name="inputPassword" id="inputPassword" class="form-control" style="height: 5vh;"
+                required>
             <label type="button" id="togglePassword" class="input-group-text" style="height: 5vh;" alt="Mostrar senha">
-                <img width="20px"
-                src="../static/imgs/olho-100.png">
+                <img width="20px" src="../static/imgs/olho-100.png">
             </label>
         </div>
         <div class="card-body input-group container container_form" style="padding-top: 10px;">
-            <label for="inputPasswordConfirm" class="form-label text-dark input-group-text" style="height: 5vh;">Confirme sua senha:</label>
-            <input type="password" name="inputPasswordConfirm" id="inputPasswordConfirm" class="form-control" style="height: 5vh;" required>
+            <label for="inputPasswordConfirm" class="form-label text-dark input-group-text"
+                style="height: 5vh;">Confirme sua senha:</label>
+            <input type="password" name="inputPasswordConfirm" id="inputPasswordConfirm" class="form-control"
+                style="height: 5vh;" required>
         </div>
         <div class="d-flex justify-content-between form-group">
             {% if mensagem %}
@@ -32,11 +34,14 @@
                 {{mensagem}}</div>
             {% endif %}
         </div>
-        <div class="d-grid gap-2 col-2 mx-auto mt-3">
-            <input type="submit" value="Cadastre-se" class="btn btn-light text-uppercase fs-5"></input>
+        <div>
+            <input type="submit" value="Cadastre-se" class="btn botao"></input>
         </div>
-        <p class="text-center pt-2">Já tem uma conta? <a href="/login" class="text-blue-flag text-decoration-none">Faça
-                login</a></p>
+        <div class="input-group container_form justify-content-center">
+            <p class="text-center pt-2">Já tem uma conta? <a href="/login"
+                    class="text-blue-flag text-decoration-none">Faça
+                    login</a></p>
+        </div>
     </div>
 </form>
 {% endblock %}

@@ -1,68 +1,90 @@
-/* Estilo do menu */
-nav ul {
-    display: flex;
+.hamburguer {
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    display: none;
+}
+
+.menu-ham {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background: #333;
+    color: white;
+    padding-top: 60px;
+    transition: left 0.3s ease-in-out;
+    z-index: 1002;
+}
+
+.menu ul {
     list-style: none;
+    padding: 0;
 }
 
-/* Estilo do botão hambúrguer */
-.menu-hamburguer {
-    display: none;
+.menu li {
+    padding: 15px;
 }
 
-.menu-toggle {
-    display: none;
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
 }
 
-.menu-toggle .bar {
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 4px;
-    background-color: #333;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
 }
 
-@media (max-width: 768px) {
-    .menu div {
-        display: none;
-    }
-
-    .menu-hamburguer {
-        display: block;
-    }
-    footer{
-        display: none;
-    }
-    main {
+/* Mobile */
+@media screen and (max-width: 768px) {
+    * {
+        margin: 0;
         padding: 0;
-    }
-    nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        top: 50px;
-        left: 0;
-        width: 100%;
-        padding: 10px;
+        box-sizing: border-box;
     }
 
-    .menu-hamburguer {
+    .hamburguer {
         display: block;
     }
 
-    .menu-hamburguer .menu {
+    .menu-padrao div {
         display: none;
     }
 
-    .menu-hamburguer .menu.open {
-        display: flex;
+    footer {
+        display: none;
     }
-    .menu-toggle {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 30px;
-        height: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
+
+    .container_form {
+        margin: 0;
+        padding: 0;
+        width: 90vw;
+    }
+    .imagem img{
+        width: 175px;
     }
 }

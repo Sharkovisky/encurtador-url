@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block conteudo %}
 <form action="/login" method="POST" class="form">
-    <div class="container header container_form pt-2 pb-2" style="border: 15px white;">
+    <div class="container header container_form pt-2 pb-2" style="padding: 25px;">
         <div class="card-body input-group container container_form" style="padding-top: 10px;">
             <label for="inputEmail" class="form-label text-dark input-group-text" style="height: 5vh;">Endereço de e-mail:</label>
             <input type="email" name="inputEmail" id="inputEmail" class="form-control" style="height: 5vh;"
@@ -24,11 +24,13 @@
                     senha?</a>
                 -->
         </div>
-        <div class="d-grid gap-2 col-1 mx-auto mt-lg-5">
-            <input type="submit" value="Login" class="btn btn-light text-uppercase fs-5"></input>
+        <div>
+            <input type="submit" value="Login" class="btn botao"></input>
         </div>
-        <p class="text-center mt-lg-2">Não tem uma conta? <a href="/cadastro"
+        <div class="input-group container_form justify-content-center">
+            <p class="text-center">Não tem uma conta? <a href="/cadastro"
                 class="text-blue-flag text-decoration-none">Cadastre-se</a></p>
+        </div>
 </form>
 </div>
 {% endblock %}
