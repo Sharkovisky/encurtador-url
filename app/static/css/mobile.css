@@ -7,6 +7,7 @@
     left: 20px;
     z-index: 1001;
     display: none;
+    color: white;
 }
 
 .menu-ham {
@@ -15,7 +16,7 @@
     position: fixed;
     top: 0;
     left: -250px;
-    background: #333;
+    background: #11441c;
     color: white;
     padding-top: 60px;
     transition: left 0.3s ease-in-out;
@@ -86,5 +87,16 @@
     }
     .imagem img{
         width: 175px;
+    }
+    .link-pronto{
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    .link-pronto button{
+        font-size: 15px;
+    }
+    .link-pronto img{
+        width: 20px;
+        padding: 2px;
     }
 }

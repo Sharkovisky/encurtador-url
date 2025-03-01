@@ -52,19 +52,36 @@ def denunciar():
         mensagem = "O campo está vazio."
         return render_template("denuncias.html", mensagem=mensagem)
 
-    denuncia = Denuncias(
-        nome=linkDenunciado
-    )
-    db.session.add(denuncia)
-    db.session.commit()
+    linkFoiDenunciado = Denuncias.query.filter(Denuncias.nome.like(linkDenunciado)).first()
 
-    mensagem = "O link foi denunciado."
-    return render_template("denuncias.html", mensagem=mensagem)
+    if(linkFoiDenunciado == None):
+        mensagem = "O link denunciado já foi denunciado."
+        return render_template("denuncias.html", mensagem=mensagem)
+
+    linkCerto = Link.query.filter(Link.linkEncurtado.like(linkDenunciado)).first()
+
+    if (linkCerto == None):
+        mensagem = "O link denunciado não existe."
+        return render_template("denuncias.html", mensagem=mensagem)
+
+    else:
+        denuncia = Denuncias(
+            nome=linkDenunciado
+        )
+        db.session.add(denuncia)
+        db.session.commit()
+
+        mensagem = "O link foi denunciado."
+        return render_template("denuncias.html", mensagem=mensagem)
 
 @app.route('/acessarLinkDenunciado', methods=["GET", "POST"])
 def receber_linkDenunciado():
         
     linkEncurtado = request.form["linkEncurtado"]
-    
     linkCerto = Link.query.filter(Link.linkEncurtado.like(linkEncurtado)).first()
-    return redirect(linkCerto.linkOriginal)
+
+    if (linkCerto == None):
+        mensagem = "O link denunciado foi excluído."
+        return render_template("denuncias.html", mensagem=mensagem)
+    else:
+        return redirect(linkCerto.linkOriginal)

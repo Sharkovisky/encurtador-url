@@ -18,7 +18,7 @@
     <header class="header d-flex menu-hamburguer">
         <div class="container d-flex justify-content-around text-light">
             <div class="menu-container">
-                <button class="hamburguer btn" onclick="toggleMenu()">☰</button>
+                <button class="hamburguer btn p-1" onclick="toggleMenu()">☰</button>
                 <nav id="menu" class="menu-ham">
                     <button class="close-btn" onclick="toggleMenu()">✖</button>
                     <div class="p-3"><a href="/" class="link-light">Página Inicial</a></div>
@@ -42,7 +42,6 @@
                 {% endif %}
             </div>
             <div class="p-2">
-                <!--<button type="button" class="btn btn-light"><a href="login"></a>Login</button>-->
                 {% if session.get('logged_in') %}
                 <a href="logout" class="btn btn-danger">
                     <i class="bi bi-box-arrow-right"></i>
@@ -50,6 +49,9 @@
                 {% else %}
                 <a href="login" class="btn btn-light">Login</a>
                 {% endif %}
+            </div>
+            <div>
+                
             </div>
         </div>
     </header>
