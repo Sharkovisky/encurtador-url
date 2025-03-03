@@ -63,9 +63,9 @@ def enviar_link():
         mensagem = "Não é permitido ter como texto personalizado um outro link."
         return render_template("link.html", mensagem=mensagem)
     
-    #if (is_blocked(linkOriginal)==True):
-        #mensagem = "Não é permitido encurtar link de sites adultos."
-        #return render_template("link.html", mensagem=mensagem) 
+    if (validar_https(linkOriginal)==False):
+        mensagem = "Não é permitido encurtar links fora do padrão HTTPS."
+        return render_template("link.html", mensagem=mensagem) 
 
     if (linkEncurtado == ""):
         letras = string.ascii_uppercase+string.ascii_lowercase

@@ -151,3 +151,7 @@ def limite_caracteres(link):
         return True
     else:
         return False
+
+def validar_https(link):
+    padrao = r"^https://[\w\-]+(\.[\w\-]+)+[/#?]?.*$"
+    return re.match(padrao, link) is not None
