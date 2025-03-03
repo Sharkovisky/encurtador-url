@@ -4,6 +4,7 @@ from app.models.tables import Usuario, Link, LinksProibidos, Denuncias
 import string, random, requests, time, re, urllib.parse
 from itertools import product
 from flask_login import login_required, current_user
+from flask_paginate import Pagination
 from app.controllers.validacao import *
 
 @app.route('/', methods=["GET", "POST"])
@@ -197,21 +198,30 @@ def contador_links():
 def meus_links():
 
     """
-    Função de Rota para mostrar o contador de links mais acessados.
+    Função de Rota para mostrar os links encurtados pelo usuário logado.
 
     :param link:
     :type:
-    :return: Retorna o render_template da página de contador com a consulta ao banco de dados.
+    :return: Retorna o render_template da página de meus links com a consulta ao banco de dados.
     :rtype:
     :raises ValueError:
 
     Example:
-        >>> contador_links()
-        render_template("contador.html", query=query)
+        >>> meus_links()
+        render_template("meus_links.html", query=query)
 
         .. note::
             Esta função assume que os valores são Strings.
     """
-    query = Link.query.filter(Link.usuario.like(current_user.id)).all()
-    
-    return render_template("meus_links.html", query=query)
+
+    consulta = Link.query.filter(Link.usuario.like(current_user.id)).all()
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    start = (page - 1) * per_page
+    end = start + per_page
+    query = consulta[start:end]
+
+    pagination = Pagination(page=page, per_page=per_page, total=len(consulta))
+
+    return render_template("meus_links.html", query=query, pagination=pagination)
