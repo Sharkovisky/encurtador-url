@@ -1,3 +1,7 @@
+.menu-container{
+    display: none;
+}
+
 .hamburguer {
     font-size: 30px;
     background: none;
@@ -98,5 +102,11 @@
     .link-pronto img{
         width: 20px;
         padding: 2px;
+    }
+    form table{
+        font-size: 10px;
+    }
+    .menu-container{
+        display: block;
     }
 }

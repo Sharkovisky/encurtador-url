@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block conteudo %}
 <form>
-  <div class="container header container_form pt-2 pb-2" style="border: 15px white;">
-    <table id="data" class="table text-light">
+  <div id="data1" class="container header container_form pt-2 pb-2">
+    <table id="data2" class="table text-light">
       <thead>
         <tr>
           <th>Link original</th>
@@ -26,7 +26,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <div class="input-group container_form justify-content-center" style="color: green;">
+    <div id="data3" class="input-group container_form justify-content-center">
       {{ pagination.links }}
     </div>
   </div>
