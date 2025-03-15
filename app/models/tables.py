@@ -5,7 +5,6 @@ class Usuario(db.Model, UserMixin):
     __tablename__ = "usuarios"
 
     id = db.Column(db.Integer, primary_key=True)
-    cpf = db.Column(db.String(14), nullable=False, unique=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
     senha = db.Column(db.String(200), nullable=False)

@@ -6,14 +6,13 @@ name = "pypi"
 [packages]
 flask = "=2.2.2"
 flask-sqlalchemy = "3.0.2"
-flask-script = "<=2.0.5"
+flask-script = "*"
 flask-migrate = "<=2.7.0"
 pymysql = "*"
 requests = "*"
 Werkzeug = "2.2.2"
-markupsafe==2.0.1
+markupsafe = "2.0.1"
 
 [dev-packages]
 
 [requires]
-

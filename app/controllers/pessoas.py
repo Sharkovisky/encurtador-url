@@ -5,7 +5,6 @@ from flask_login import login_user, logout_user
 from sqlalchemy import func
 from datetime import date, datetime
 from app.models.tables import Usuario
-from validate_docbr import CPF
 import sys, uuid
 from datetime import datetime
 import bcrypt
@@ -56,19 +55,6 @@ def cadastro():
             mensagem = "Seu nome completo deve conter ao menos 3 caracteres"
             return render_template("cadastro.html", mensagem=mensagem)
 
-        cpf = CPF()
-        if cpf.validate(request.form["inputCPF"]):
-            existe_cpf = Usuario.query.filter_by(cpf=request.form["inputCPF"]).first()
-            if existe_cpf:
-                mensagem = "CPF já cadastrado."
-                return render_template("cadastro.html", mensagem=mensagem)
-            else:
-                cpf = request.form["inputCPF"]
-
-        else:
-            mensagem = "Insira um CPF válido"
-            return render_template("cadastro.html", mensagem=mensagem)
-
         email = request.form["inputEmail"]
         existe_email = Usuario.query.filter_by(email=email).first()
         if existe_email:
@@ -91,7 +77,6 @@ def cadastro():
 
         usuario = Usuario(
             nome=nome,
-            cpf=cpf,
             email=email,
             senha=senhaEncriptada,
             data_cadastro=data_cadastro,
