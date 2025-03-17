@@ -18,14 +18,13 @@ class Link(db.Model):
     __tablename__ = "links"
 
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
     linkOriginal = db.Column(db.String(1000), nullable=False)
     linkEncurtado = db.Column(db.String(45))
     cliques = db.Column(db.BigInteger)
     usuario = db.Column(db.Integer)
 
     def __repr__(self):
-        return "<Usuario %s>" % self.nome
+        return "<Link %s>" % self.linkEncurtado
 
 class LinksProibidos(db.Model):
     __tablename__ = "linksProibidos"

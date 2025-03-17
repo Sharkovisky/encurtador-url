@@ -3,10 +3,13 @@ import pytest
 from app.controllers.links import *
 
 def test_linkComNumero():
-    assert validar_apenas_letras("Teste1234")
+    """Deve retornar False quando há números no link."""
+    assert validar_apenas_letras("Teste1234") == False
 
 def test_linkComCaracteresEspeciais():
-    assert validar_apenas_letras("Teste$%&*")
+    """Deve retornar False quando há caracteres especiais no link."""
+    assert validar_apenas_letras("Teste$%&*") == False
 
 def test_linkComEspacos():
-    assert verificar_link_com_espacos("Teste oi teste")
+    """Deve retornar False quando há espaços no link."""
+    assert verificar_link_com_espacos("Teste oi teste") == False
