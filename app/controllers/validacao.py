@@ -5,7 +5,7 @@ import string, random, requests, time, re, urllib.parse
 from itertools import product
 from flask_login import login_required, current_user
 
-def variarPossibilidades(link):
+def variarPossibilidades(link, max_variations=100):
 
     """
     Função para verificar todas as possibilidades possíveis com links que possuam I ou L.
@@ -24,26 +24,21 @@ def variarPossibilidades(link):
             Esta função assume que os valores são Strings.
     """
 
-    substituicoes = {
-        'i': ['I', 'l'],
-        'I': ['i', 'L'],
-        'l': ['L', 'i'],
-        'L': ['l', 'I']
-        }
-        
-    listaPossibilidades = []
-        
-    for char in link:
-        if char in substituicoes:
-            listaPossibilidades.append(substituicoes[char] + [char])
-        else:
-            listaPossibilidades.append([char])
-        
-    todasCombinacoes = product(*listaPossibilidades)
-        
-    possibilidades = [''.join(combinacoes) for combinacoes in todasCombinacoes]
+    """ Gera variações substituindo I ↔ L, mas limita o número máximo. """
 
-    return possibilidades
+    mapping = {'i': 'l', 'l': 'i'}
+    positions = [i for i, c in enumerate(link) if c in mapping]
+
+    # Se houver muitas possibilidades, limita o número de variações geradas
+    num_possible = min(len(positions), max_variations)
+
+    variations = set()
+    for combination in product(*[(c, mapping.get(c, c)) for c in link]):
+        variations.add("".join(combination))
+        if len(variations) >= max_variations:
+            break  # Para evitar gerar variações demais
+    
+    return variations
 
 def contagemCliques(link):
 

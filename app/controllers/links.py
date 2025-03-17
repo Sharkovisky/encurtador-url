@@ -45,7 +45,7 @@ def enviar_link():
     """
 
     linkOriginal = request.form["linkOriginal"]
-    linkEncurtado = request.form["linkEncurtado"].strip()
+    linkEncurtado = request.form["linkEncurtado"].strip().lower()
 
     app.logger.info(
         "O link encurtado veio null? " + str(linkEncurtado)
